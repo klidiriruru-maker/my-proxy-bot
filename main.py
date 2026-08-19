@@ -1,10 +1,25 @@
+import os
+import threading
 import asyncio
 import logging
 import re
+from flask import Flask
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import TelegramError
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, CallbackQueryHandler, filters
 
+# ----------------- FLASK SERVER (Render Keep-Alive) -----------------
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Proxy Bot is running 24/7!"
+
+def run_web_server():
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
+
+# ----------------- BOT CONFIGURATION -----------------
 TOKEN = "8628179351:AAHOlbKJTDbsAUPN2nH409VQbCVpCnD57KE"
 PRIMARY_ADMIN_ID = 8991828975      # মূল অ্যাডমিন
 PARTNER_ADMIN_ID = 7746201403      # পার্টনার অ্যাডমিন
@@ -49,7 +64,7 @@ def get_main_keyboard(user_id):
         
     return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
-# অ্যাডমিন প্যানেলের কিবোর্ড মেনু (Ban/Unban অপশন যুক্ত করা হয়েছে)
+# অ্যাডমিন প্যানেলের কিবোর্ড মেনু
 def get_admin_reply_keyboard():
     keyboard = [
         [KeyboardButton("➕ Add Proxy Stock"), KeyboardButton("💰 Change Price")],
@@ -601,13 +616,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("Please select a valid option from the keyboard menu below.", reply_markup=get_main_keyboard(user_id))
 
 def main():
+    # Render-এর জন্য Flask ওয়েব সার্ভার ব্যাকগ্রাউন্ডে চালু করা
+    threading.Thread(target=run_web_server, daemon=True).start()
+
     application = ApplicationBuilder().token(TOKEN).build()
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button_callback))
     application.add_handler(MessageHandler(filters.TEXT | filters.PHOTO & (~filters.COMMAND), handle_message))
 
-    print("🤖 Bot is running with Ban/Unban Admin Features...")
+    print("🤖 Proxy Bot is running 24/7 on Render...")
     application.run_polling()
 
 if __name__ == '__main__':
