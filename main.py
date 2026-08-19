@@ -21,9 +21,8 @@ def run_web_server():
 
 # ----------------- BOT CONFIGURATION -----------------
 TOKEN = "8628179351:AAHOlbKJTDbsAUPN2nH409VQbCVpCnD57KE"
-PRIMARY_ADMIN_ID = 8991828975      # মূল অ্যাডমিন
-PARTNER_ADMIN_ID = 7746201403      # পার্টনার অ্যাডমিন
-ALL_ADMINS = [PRIMARY_ADMIN_ID, PARTNER_ADMIN_ID]
+PRIMARY_ADMIN_ID = 8991828975      # মূল অ্যাডমিন (আপনার আইডি)
+ALL_ADMINS = [PRIMARY_ADMIN_ID]
 
 CHANNEL_USERNAME = "@personel_3452"   # রিকোয়ার্ড চ্যানেল
 
@@ -54,7 +53,7 @@ async def check_subscription(user_id, context):
     except TelegramError:
         return False
 
-# 𝙀𝙇𝙄𝙏𝙀 ফন্টে সাজানো ইউজার কিবোর্ড মেনু
+# কিবোর্ড মেনু
 def get_main_keyboard(user_id):
     keyboard = [
         [KeyboardButton("🛍️ 𝘽𝙐𝙔 𝙋𝙍𝙊𝙓𝙔 / 𝙎𝙀𝙍𝙑𝙄𝘾𝙀"), KeyboardButton("💳 𝘿𝙀𝙋𝙊𝙎𝙄𝙏 𝙈𝙊𝙉𝙀𝙔")],
@@ -65,7 +64,6 @@ def get_main_keyboard(user_id):
         
     return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
-# 𝙀𝙇𝙄𝙏𝙀 ফন্টে সাজানো অ্যাডমিন কিবোর্ড মেনু
 def get_admin_reply_keyboard():
     keyboard = [
         [KeyboardButton("📦 𝘼𝘿𝘿 𝙋𝙍𝙊𝙓𝙔 𝙎𝙏𝙊𝘾𝙆"), KeyboardButton("🏷️ 𝙀𝘿𝙄𝙏 𝙋𝙍𝙄𝘾𝙀")],
@@ -80,7 +78,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ALL_USERS.add(user_id)
 
     if user_id in BANNED_USERS:
-        await update.message.reply_text("🚫 **𝘼𝘾𝘾𝙀𝙎𝙎 𝘿𝙀𝙉𝙄𝙀𝘿!**\n\n❌ দুঃখিত! আপনি এই বট থেকে ব্যান (Banned) হয়েছেন।")
+        await update.message.reply_text("🚫 অ্যাক্সেস ডিনাইড! আপনি এই বট থেকে ব্যান আছেন।")
         return
 
     is_joined = await check_subscription(user_id, context)
@@ -88,33 +86,33 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not is_joined:
         join_alert = (
             "╭━━━━━━━━━━━━━━━━━━━━━━━━╮\n"
-            "   ⚠️  **𝙅𝙊𝙄𝙉 𝙊𝙐𝙍 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 𝙁𝙄𝙍𝙎𝙏**  ⚠️\n"
+            "   ⚠️  আমাদের চ্যানেলে জয়েন করুন  ⚠️\n"
             "╰━━━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
-            f"👋 হ্যালো **{user_name}**!\n\n"
+            f"👋 হ্যালো {user_name}!\n\n"
             "বটটি ব্যবহার করতে হলে আমাদের অফিশিয়াল চ্যানেলে যুক্ত হতে হবে।\n\n"
-            f"📢 **অফিশিয়াল চ্যানেল:** {CHANNEL_USERNAME}\n\n"
-            "👇 *নিচের বাটনে ক্লিক করে জয়েন করে ভেরিফাই করুন:*"
+            f"📢 অফিশিয়াল চ্যানেল: {CHANNEL_USERNAME}\n\n"
+            "👇 নিচের বাটনে ক্লিক করে জয়েন করে ভেরিফাই করুন:"
         )
         join_markup = InlineKeyboardMarkup([
             [InlineKeyboardButton("📢 𝙅𝙊𝙄𝙉 𝘾𝙃𝘼𝙉𝙉𝙀𝙇", url=f"https://t.me/{CHANNEL_USERNAME.replace('@', '')}")],
             [InlineKeyboardButton("⚡ 𝙑𝙀𝙍𝙄𝙁𝙔 𝙅𝙊𝙄𝙉", callback_data="verify_join")]
         ])
-        await update.message.reply_text(join_alert, reply_markup=join_markup, parse_mode="Markdown")
+        await update.message.reply_text(join_alert, reply_markup=join_markup)
         return
 
     welcome_text = (
         "╔═════════════════════════╗\n"
-        "   👑  **𝙏𝙀𝘼𝙈 𝙀𝙇𝙄𝙏𝙀 𝙓 𝙋𝙍𝙊𝙓𝙔**  👑\n"
+        "   👑  𝙏𝙀𝘼𝙈 𝙀𝙇𝙄𝙏𝙀 𝙓 𝙋𝙍𝙊𝙓𝙔  👑\n"
         "╚═════════════════════════╝\n\n"
-        f"🔥 স্বাগতম, **{user_name}**!\n"
+        f"🔥 স্বাগতম, {user_name}!\n"
         "সবচেয়ে ফাস্ট ও প্রিমিয়াম প্রক্সি এবং সার্ভিস কিনুন এক ক্লিকে। ⚡\n\n"
-        "💳 **𝙋𝘼𝙔𝙈𝙀𝙉𝙏 𝙈𝙀𝙏𝙃𝙊𝘿𝙎 (ট্যাপ করে কপি করুন):**\n"
+        "💳 পেমেন্ট মাধ্যম (ট্যাপ করে কপি করুন):\n"
         "━━━━━━━━━━━━━━━━━━━━\n"
-        "🔹 **Bkash (Personal):** `01317404705`\n"
-        "🔸 **Nagad (Personal):** `01917404724`\n"
+        "🔹 বিকাশ (Personal): `01317404705`\n"
+        "🔸 নগদ (Personal): `01917404724`\n"
         "━━━━━━━━━━━━━━━━━━━━\n\n"
-        "☎️ **𝙎𝙐𝙋𝙋𝙊𝙍𝙏:** @owner_joshim\n\n"
-        "👇 *নিচের কিবোর্ড মেনু থেকে আপনার অপশন সিলেক্ট করুন:*"
+        "☎️ সাপোর্ট: @owner_joshim\n\n"
+        "👇 নিচের কিবোর্ড মেনু থেকে আপনার অপশন সিলেক্ট করুন:"
     )
     await update.message.reply_text(
         welcome_text, 
@@ -122,6 +120,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown"
     )
 
+# ডিপোজিট অ্যাপ্রুভ / রিজেক্ট বাটন হ্যান্ডলার
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
@@ -131,25 +130,28 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if data == "verify_join":
         is_joined = await check_subscription(user_id, context)
         if is_joined:
-            await query.message.delete()
+            try:
+                await query.message.delete()
+            except:
+                pass
             welcome_text = (
                 "╔═════════════════════════╗\n"
-                "   👑  **𝙏𝙀𝘼𝙈 𝙀𝙇𝙄𝙏𝙀 𝙓 𝙋𝙍𝙊𝙓𝙔**  👑\n"
+                "   👑  𝙏𝙀𝘼𝙈 𝙀𝙇𝙄𝙏𝙀 𝙓 𝙋𝙍𝙊𝙓𝙔  👑\n"
                 "╚═════════════════════════╝\n\n"
-                "✅ **𝙑𝙀𝙍𝙄𝙁𝙄𝘾𝘼𝙏𝙄𝙊𝙉 𝙎𝙐𝘾𝘾𝙀𝙎𝙎𝙁𝙐𝙇!** 🎉\n\n"
-                "👇 *নিচের মেনু থেকে আপনার সেবাটি বেছে নিন:*"
+                "✅ ভেরিফিকেশন সফল হয়েছে! 🎉\n\n"
+                "👇 নিচের মেনু থেকে আপনার সেবাটি বেছে নিন:"
             )
             await context.bot.send_message(
                 chat_id=user_id,
                 text=welcome_text,
-                reply_markup=get_main_keyboard(user_id),
-                parse_mode="Markdown"
+                reply_markup=get_main_keyboard(user_id)
             )
         else:
-            await query.answer("❌ আপনি এখনো চ্যানেলে জয়েন করেননি! অনুগ্রহ করে আগে জয়েন করুন।", show_alert=True)
+            await query.answer("❌ আপনি এখনো চ্যানেলে জয়েন করেননি! আগে জয়েন করুন।", show_alert=True)
 
     elif data.startswith("approve_"):
-        if user_id != PRIMARY_ADMIN_ID:
+        if user_id not in ALL_ADMINS:
+            await query.answer("❌ আপনি অ্যাডমিন নন!", show_alert=True)
             return
         parts = data.split("_")
         target_user = int(parts[1])
@@ -159,100 +161,149 @@ async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
             USER_BALANCES[target_user] = 0
         USER_BALANCES[target_user] += amount
 
-        new_caption = f"{query.message.caption}\n\n━━━━━━━━━━━━━━━━━━━━\n✅ **𝙎𝙏𝘼𝙏𝙐𝙎: 𝘼𝙋𝙋𝙍𝙊𝙑𝙀𝘿**\n💰 **𝘼𝘿𝘿𝙀𝘿:** ৳{amount} BDT"
+        new_caption = f"{query.message.caption}\n\n━━━━━━━━━━━━━━━━━━━━\n✅ স্ট্যাটাস: Approved by Admin\n💰 যোগ করা হয়েছে: ৳{amount} BDT"
         try:
-            await query.edit_message_caption(caption=new_caption, parse_mode="Markdown")
+            await query.edit_message_caption(caption=new_caption)
         except Exception as e:
-            print(f"Caption edit error: {e}")
+            print(f"Caption error: {e}")
 
         try:
             await context.bot.send_message(
                 chat_id=target_user,
                 text=(
                     "╔═════════════════════════╗\n"
-                    "   🎉  **𝘿𝙀𝙋𝙊𝙎𝙄𝙏 𝘼𝙋𝙋𝙍𝙊𝙑𝙀𝘿**  🎉\n"
+                    "   🎉  ডিপোজিট সফল হয়েছে  🎉\n"
                     "╚═════════════════════════╝\n\n"
-                    f"💎 **জমা হয়েছে:** `৳{amount} BDT`\n"
-                    f"💰 **বর্তমান ব্যালেন্স:** `৳{USER_BALANCES[target_user]} BDT`\n\n"
+                    f"💎 জমা হয়েছে: ৳{amount} BDT\n"
+                    f"💰 বর্তমান ব্যালেন্স: ৳{USER_BALANCES[target_user]} BDT\n\n"
                     "✨ ধন্যবাদ আমাদের সাথে থাকার জন্য!"
-                ),
-                parse_mode="Markdown"
+                )
             )
         except:
             pass
+        await query.answer("✅ ব্যালেন্স সফলভাবে যোগ করা হয়েছে!")
 
     elif data.startswith("reject_"):
-        if user_id != PRIMARY_ADMIN_ID:
+        if user_id not in ALL_ADMINS:
+            await query.answer("❌ আপনি অ্যাডমিন নন!", show_alert=True)
             return
         parts = data.split("_")
         target_user = int(parts[1])
 
-        new_caption = f"{query.message.caption}\n\n━━━━━━━━━━━━━━━━━━━━\n❌ **𝙎𝙏𝘼𝙏𝙐𝙎: 𝙍𝙀𝙅𝙀𝘾𝙏𝙀𝘿**"
+        new_caption = f"{query.message.caption}\n\n━━━━━━━━━━━━━━━━━━━━\n❌ স্ট্যাটাস: Rejected by Admin"
         try:
-            await query.edit_message_caption(caption=new_caption, parse_mode="Markdown")
+            await query.edit_message_caption(caption=new_caption)
         except Exception as e:
-            print(f"Caption edit error: {e}")
+            print(f"Caption error: {e}")
 
         try:
             await context.bot.send_message(
                 chat_id=target_user,
                 text=(
                     "╭━━━━━━━━━━━━━━━━━━━━━━━━╮\n"
-                    "   ❌  **𝘿𝙀𝙋𝙊𝙎𝙄𝙏 𝙍𝙀𝙅𝙀𝘾𝙏𝙀𝘿**  ❌\n"
+                    "   ❌  ডিপোজিট বাতিল হয়েছে  ❌\n"
                     "╰━━━━━━━━━━━━━━━━━━━━━━━━╯\n\n"
                     "⚠️ দুঃখিত! আপনার পেমেন্ট ভেরিফাই করা সম্ভব হয়নি।\n"
                     "অনুগ্রহ করে সঠিক তথ্য দিয়ে পুনরায় চেষ্টা করুন অথবা সাপোর্টে যোগাযোগ করুন।"
-                ),
-                parse_mode="Markdown"
+                )
             )
         except:
             pass
+        await query.answer("❌ ডিপোজিট বাতিল করা হয়েছে!")
 
+# মেসেজ ও ফটো হ্যান্ডলার
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
-    text = update.message.text if update.message else ""
     ALL_USERS.add(user_id)
 
     if user_id in BANNED_USERS:
-        await update.message.reply_text("🚫 **𝘼𝘾𝘾𝙀𝙎𝙎 𝘿𝙀𝙉𝙄𝙀𝘿!**\n\n❌ আপনাকে সাময়িকভাবে বট থেকে ব্যান করা হয়েছে।")
+        await update.message.reply_text("🚫 অ্যাক্সেস ডিনাইড! আপনি এই বট থেকে ব্যান আছেন।")
         return
+
+    # --- ফটো হ্যান্ডলিং (স্ক্রিনশট গ্রহণ) ---
+    if update.message.photo:
+        if USER_STATES.get(user_id) == "waiting_for_deposit_screenshot":
+            amount_sent = USER_TEMP_DATA.get(user_id, "0")
+            photo_file_id = update.message.photo[-1].file_id
+            user_mention = f"@{update.effective_user.username}" if update.effective_user.username else update.effective_user.first_name
+
+            USER_STATES[user_id] = None  
+            if user_id in USER_TEMP_DATA:
+                del USER_TEMP_DATA[user_id]
+
+            admin_alert = (
+                "╔═════════════════════════╗\n"
+                "   🔔  নতুন ডিপোজিট রিকোয়েস্ট  🔔\n"
+                "╚═════════════════════════╝\n\n"
+                f"👤 ইউজার: {user_mention} (`{user_id}`)\n"
+                f"💰 টাকার পরিমাণ: ৳{amount_sent} BDT\n\n"
+                "👇 নিচের বাটন চেপে অ্যাপ্রুভ বা রিজেক্ট করুন:"
+            )
+            
+            admin_markup = InlineKeyboardMarkup([
+                [
+                    InlineKeyboardButton(f"✅ Approve ৳{amount_sent}", callback_data=f"approve_{user_id}_{amount_sent}"),
+                    InlineKeyboardButton("❌ Reject", callback_data=f"reject_{user_id}")
+                ]
+            ])
+
+            # অ্যাডমিনের কাছে স্ক্রিনশট পাঠানো
+            try:
+                await context.bot.send_photo(
+                    chat_id=PRIMARY_ADMIN_ID, 
+                    photo=photo_file_id, 
+                    caption=admin_alert, 
+                    reply_markup=admin_markup,
+                    parse_mode="Markdown"
+                )
+            except Exception as e:
+                logging.error(f"Error sending photo to admin: {e}")
+
+            await update.message.reply_text(
+                "⏳ আপনার ডিপোজিট রিকোয়েস্টটি অ্যাডমিনের কাছে পাঠানো হয়েছে! অ্যাডমিন ভেরিফাই করে দ্রুত ব্যালেন্স যুক্ত করে দেবেন। ✨",
+                reply_markup=get_main_keyboard(user_id)
+            )
+            return
+        else:
+            return
+
+    text = update.message.text if update.message.text else ""
 
     if text in ["❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆", "❌ Cancel & Back", "🔙 𝘽𝘼𝘾𝙆 𝙏𝙊 𝙈𝙀𝙉𝙐", "⬅️ Back to Menu"]:
         USER_STATES[user_id] = None
         if user_id in USER_TEMP_DATA:
             del USER_TEMP_DATA[user_id]
-        await update.message.reply_text("🏠 **প্রধান মেনুতে ফিরে আসা হয়েছে:**", reply_markup=get_main_keyboard(user_id), parse_mode="Markdown")
+        await update.message.reply_text("🏠 প্রধান মেনুতে ফিরে আসা হয়েছে:", reply_markup=get_main_keyboard(user_id))
         return
 
-    # অ্যাডমিন কিবোর্ড মেনু হ্যান্ডলিং
+    # অ্যাডমিন মেনু
     if user_id in ALL_ADMINS:
-        if text in ["👑 𝘼𝘿𝙈𝙄𝙉 𝙋𝘼𝙉𝙀𝙇", "👑 𝐀𝐃𝐌𝐈𝐍 𝐂𝐎𝐍𝐓𝐑𝐎𝐋 𝐏𝐀𝐍𝐄𝐋", "⚙️ Admin Panel"]:
+        if text in ["👑 𝘼𝘿𝙈𝙄𝙉 𝙋𝘼𝙉𝙀𝙇", "⚙️ Admin Panel"]:
             await update.message.reply_text(
                 "╔═════════════════════════╗\n"
-                "   👑  **𝘼𝘿𝙈𝙄𝙉 𝘾𝙊𝙉𝙏𝙍𝙊𝙇 𝘾𝙀𝙉𝙏𝙀𝙍**  👑\n"
+                "   👑  এডমিন কন্ট্রোল সেন্টার  👑\n"
                 "╚═════════════════════════╝\n\n"
                 "নিচের অপশনগুলো থেকে আপনার কাজ সিলেক্ট করুন 👇",
-                reply_markup=get_admin_reply_keyboard(),
-                parse_mode="Markdown"
+                reply_markup=get_admin_reply_keyboard()
             )
             return
 
-        elif text in ["📦 𝘼𝘿𝘿 𝙋𝙍𝙊𝙓𝙔 𝙎𝙏𝙊𝘾𝙆", "📦 𝐀𝐃𝐃 𝐏𝐑𝐎𝐗𝐘 𝐒𝐓𝐎𝐂𝐊", "➕ Add Proxy Stock"]:
+        elif text in ["📦 𝘼𝘿𝘿 𝙋𝙍𝙊𝙓𝙔 𝙎𝙏𝙊𝘾𝙆", "➕ Add Proxy Stock"]:
             USER_STATES[user_id] = "waiting_for_admin_proxy_stock"
             await update.message.reply_text(
-                "📦 **নতুন প্রক্সি স্টক যোগ করুন:**\n"
+                "📦 নতুন প্রক্সি স্টক যোগ করুন:\n"
                 "━━━━━━━━━━━━━━━━━━━━\n"
-                "নিচের ফরম্যাটে লিখে পাঠান:\n\n"
+                "নিচের ফরমেটে লিখে পাঠান:\n\n"
                 "`Host: your_ip`\n`Port: your_port`\n`Username: your_user`\n`Password: your_pass`",
                 reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True),
                 parse_mode="Markdown"
             )
             return
 
-        elif text in ["🏷️ 𝙀𝘿𝙄𝙏 𝙋𝙍𝙄𝘾𝙀", "🏷️ 𝐄𝐃𝐈𝐓 𝐏𝐑𝐈𝐂𝐄", "💰 Change Price"]:
+        elif text in ["🏷️ 𝙀𝘿𝙄𝙏 𝙋𝙍𝙄𝘾𝙀", "💰 Change Price"]:
             USER_STATES[user_id] = "waiting_for_admin_price_change"
             await update.message.reply_text(
-                "🏷️ **প্রাইস পরিবর্তন করুন:**\n"
+                "🏷️ প্রাইস পরিবর্তন করুন:\n"
                 "━━━━━━━━━━━━━━━━━━━━\n"
                 "নাম এবং নতুন দাম লিখে পাঠান।\n"
                 "উদাহরণ: `200MB 6` অথবা `600MB 20`",
@@ -261,33 +312,32 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
             return
 
-        elif text in ["🛠️ 𝘼𝘿𝘿 𝙉𝙀𝙒 𝙎𝙀𝙍𝙑𝙄𝘾𝙀", "🛠️ 𝐀𝐃𝐃 𝐍𝐄𝐖 𝐒𝐄𝐑𝐕𝐈𝐂𝐄", "🛠️ Add New Service"]:
+        elif text in ["🛠️ 𝘼𝘿𝘿 𝙉𝙀𝙒 𝙎𝙀𝙍𝙑𝙄𝘾𝙀", "🛠️ Add New Service"]:
             USER_STATES[user_id] = "waiting_for_admin_new_service"
             await update.message.reply_text(
-                "🛠️ **নতুন সার্ভিস যুক্ত করুন:**\n"
+                "🛠️ নতুন সার্ভিস যুক্ত করুন:\n"
                 "━━━━━━━━━━━━━━━━━━━━\n"
-                "প্রথম লাইনে **নাম ও দাম** এবং পরের লাইনে **তথ্য** দিন:\n\n"
+                "প্রথম লাইনে নাম ও দাম এবং পরের লাইনে তথ্য দিন:\n\n"
                 "উদাহরণ:\n`NordVPN 50`\n`user:pass | Expire: 30 days`",
                 reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True),
                 parse_mode="Markdown"
             )
             return
 
-        elif text in ["📢 𝘽𝙍𝙊𝘼𝘿𝘾𝘼𝙎𝙏 𝙈𝙀𝙎𝙎𝘼𝙂𝙀", "📢 𝐁𝐑𝐎𝐀𝐃𝐂𝐀𝐒𝐓 𝐀𝐋𝐋", "📢 Broadcast Message"]:
+        elif text in ["📢 𝘽𝙍𝙊𝘼𝘿𝘾𝘼𝙎𝙏 𝙈𝙀𝙎𝙎𝘼𝙂𝙀", "📢 Broadcast Message"]:
             USER_STATES[user_id] = "waiting_for_admin_broadcast_msg"
             await update.message.reply_text(
-                "📢 **ব্রডকাস্ট নোটিশ পাঠান:**\n"
+                "📢 ব্রডকাস্ট নোটিশ পাঠান:\n"
                 "━━━━━━━━━━━━━━━━━━━━\n"
                 "সকল ইউজারকে যে নোটিশ পাঠাতে চান তা লিখে পাঠান:",
-                reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True),
-                parse_mode="Markdown"
+                reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True)
             )
             return
 
-        elif text in ["🚫 𝘽𝘼𝙉 / 𝙐𝙉𝘽𝘼𝙉 𝙐𝙎𝙀𝙍", "🚫 𝐁𝐀𝐍 / 𝐔𝐍𝐁𝐀𝐍 𝐔𝐒𝐄𝐑", "🚫 Ban / Unban User"]:
+        elif text in ["🚫 𝘽𝘼𝙉 / 𝙐𝙉𝘽𝘼𝙉 𝙐𝙎𝙀𝙍", "🚫 Ban / Unban User"]:
             USER_STATES[user_id] = "waiting_for_ban_action"
             await update.message.reply_text(
-                "🚫 **ইউজার ব্যান/আনব্যান করুন:**\n"
+                "🚫 ইউজার ব্যান/আনব্যান করুন:\n"
                 "━━━━━━━━━━━━━━━━━━━━\n"
                 "• ব্যান করতে: `ban 123456789`\n"
                 "• আনব্যান করতে: `unban 123456789`",
@@ -326,7 +376,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 USER_STATES[user_id] = None
                 if added_count > 0:
                     total_stock = len(PRODUCTS["Owl Proxy 200MB"]["stock_list"])
-                    await update.message.reply_text(f"✅ **{added_count}টি** প্রক্সি সফলভাবে স্টকে যোগ হয়েছে!\n📦 **মোট স্টক:** {total_stock} টি", reply_markup=get_admin_reply_keyboard(), parse_mode="Markdown")
+                    await update.message.reply_text(f"✅ {added_count}টি প্রক্সি সফলভাবে স্টকে যোগ হয়েছে!\n📦 মোট স্টক: {total_stock} টি", reply_markup=get_admin_reply_keyboard())
                 else:
                     await update.message.reply_text("⚠️ ফরম্যাট সঠিক হয়নি! দয়া করে সঠিক নিয়মে দিন।", reply_markup=get_admin_reply_keyboard())
             except Exception as e:
@@ -347,7 +397,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     if target_key in p_name.lower():
                         PRODUCTS[p_name]["price"] = new_price
                         updated = True
-                        await update.message.reply_text(f"✅ **{p_name}** এর নতুন দাম: **৳{new_price} BDT**", reply_markup=get_admin_reply_keyboard(), parse_mode="Markdown")
+                        await update.message.reply_text(f"✅ {p_name} এর নতুন দাম: ৳{new_price} BDT", reply_markup=get_admin_reply_keyboard())
                         break
                 if not updated:
                     await update.message.reply_text("❌ এই নামের কোনো প্রোডাক্ট পাওয়া যায়নি!", reply_markup=get_admin_reply_keyboard())
@@ -381,7 +431,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     PRODUCTS[full_service_name]["stock_list"].append(service_stock_item)
                 
                 USER_STATES[user_id] = None
-                await update.message.reply_text(f"✅ নতুন সার্ভিস **{service_name}** (৳{service_price} BDT) সফলভাবে তৈরি হয়েছে!", reply_markup=get_admin_reply_keyboard(), parse_mode="Markdown")
+                await update.message.reply_text(f"✅ নতুন সার্ভিস {service_name} (৳{service_price} BDT) সফলভাবে তৈরি হয়েছে!", reply_markup=get_admin_reply_keyboard())
             except Exception as e:
                 await update.message.reply_text(f"⚠️ ত্রুটি: {e}", reply_markup=get_admin_reply_keyboard())
             return
@@ -396,14 +446,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 try:
                     await context.bot.send_message(
                         chat_id=uid, 
-                        text=f"╔═════════════════════════╗\n   📢  **𝙊𝙁𝙁𝙄𝘾𝙄𝘼𝙇 𝙉𝙊𝙏𝙄𝘾𝙀**  📢\n╚═════════════════════════╝\n\n{text}", 
-                        parse_mode="Markdown"
+                        text=f"╔═════════════════════════╗\n   📢  অফিসিয়াল নোটিশ  📢\n╚═════════════════════════╝\n\n{text}"
                     )
                     sent_count += 1
                     await asyncio.sleep(0.1)
                 except:
                     fail_count += 1
-            await status_msg.edit_text(f"✅ **ব্রডকাস্ট সম্পন্ন!**\n\n📤 পাঠানো হয়েছে: `{sent_count}` জন\n❌ ব্যর্থ: `{fail_count}` জন", reply_markup=get_admin_reply_keyboard(), parse_mode="Markdown")
+            await status_msg.edit_text(f"✅ ব্রডকাস্ট সম্পন্ন!\n\n📤 পাঠানো হয়েছে: {sent_count} জন\n❌ ব্যর্থ: {fail_count} জন", reply_markup=get_admin_reply_keyboard())
             return
 
         elif current_state == "waiting_for_ban_action":
@@ -422,81 +471,34 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         await update.message.reply_text("❌ অ্যাডমিনকে ব্যান করা যাবে না!", reply_markup=get_admin_reply_keyboard())
                         return
                     BANNED_USERS.add(target_uid)
-                    await update.message.reply_text(f"✅ ইউজার আইডি `{target_uid}` ব্যান করা হয়েছে।", reply_markup=get_admin_reply_keyboard(), parse_mode="Markdown")
+                    await update.message.reply_text(f"✅ ইউজার আইডি {target_uid} ব্যান করা হয়েছে।", reply_markup=get_admin_reply_keyboard())
                 elif action == "unban":
                     if target_uid in BANNED_USERS:
                         BANNED_USERS.remove(target_uid)
-                        await update.message.reply_text(f"✅ ইউজার আইডি `{target_uid}` আনব্যান করা হয়েছে।", reply_markup=get_admin_reply_keyboard(), parse_mode="Markdown")
+                        await update.message.reply_text(f"✅ ইউজার আইডি {target_uid} আনব্যান করা হয়েছে।", reply_markup=get_admin_reply_keyboard())
                     else:
-                        await update.message.reply_text(f"⚠️ ইউজার আইডি `{target_uid}` ব্যান লিস্টে নেই!", reply_markup=get_admin_reply_keyboard(), parse_mode="Markdown")
+                        await update.message.reply_text(f"⚠️ ইউজার আইডি {target_uid} ব্যান তালিকায় নেই!", reply_markup=get_admin_reply_keyboard())
             except Exception as e:
                 await update.message.reply_text(f"⚠️ ত্রুটি: {e}", reply_markup=get_admin_reply_keyboard())
             return
 
-    # ইউজার ডিপোজিট হ্যান্ডলিং
+    # ইউজার ডিপোজিট অ্যামাউন্ট ইনপুট
     if USER_STATES.get(user_id) == "waiting_for_deposit_amount":
         if not text or not text.isdigit():
-            await update.message.reply_text("⚠️ দয়া করে সঠিক সংখ্যায় অ্যামাউন্ট লিখুন (যেমন: `20` বা `50`):", reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True), parse_mode="Markdown")
+            await update.message.reply_text("⚠️ দয়া করে সঠিক সংখ্যায় অ্যামাউন্ট লিখুন (যেমন: 20 বা 50):", reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True))
             return
         
         amount_val = int(text)
         if amount_val < 10:
-            await update.message.reply_text("❌ সর্বনিম্ন ডিপোজিট **৳১০ BDT**!", reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True), parse_mode="Markdown")
+            await update.message.reply_text("❌ সর্বনিম্ন ডিপোজিট ৳১০ BDT!", reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True))
             return
 
         USER_TEMP_DATA[user_id] = text
         USER_STATES[user_id] = "waiting_for_deposit_screenshot"
         
         await update.message.reply_text(
-            f"✅ আপনি লিখেছেন: **৳{text} BDT**\n\n📸 এবার আপনার পেমেন্টের **স্ক্রিনশট (Screenshot)** এই চ্যাটে পাঠান।",
-            reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True),
-            parse_mode="Markdown"
-        )
-        return
-
-    elif USER_STATES.get(user_id) == "waiting_for_deposit_screenshot":
-        if not update.message.photo:
-            await update.message.reply_text("⚠️ দয়া করে একটি পেমেন্ট **স্ক্রিনশট বা ছবি** পাঠান।", reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True))
-            return
-        
-        amount_sent = USER_TEMP_DATA.get(user_id, "Unknown")
-        photo_file_id = update.message.photo[-1].file_id
-        user_mention = f"@{update.effective_user.username}" if update.effective_user.username else update.effective_user.first_name
-
-        USER_STATES[user_id] = None  
-        if user_id in USER_TEMP_DATA:
-            del USER_TEMP_DATA[user_id]
-
-        admin_alert = (
-            "╔═════════════════════════╗\n"
-            "   🔔  **𝙉𝙀𝙒 𝘿𝙀𝙋𝙊𝙎𝙄𝙏 𝙍𝙀𝙌𝙐𝙀𝙎𝙏**  🔔\n"
-            "╚═════════════════════════╝\n\n"
-            f"👤 **ইউজার:** {user_mention} (`{user_id}`)\n"
-            f"💰 **পরিমাণ:** `৳{amount_sent} BDT`\n\n"
-            "👇 নিচের বাটন চেপে অ্যাপ্রুভ বা রিজেক্ট করুন:"
-        )
-        
-        admin_markup = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton(f"✅ 𝘼𝙋𝙋𝙍𝙊𝙑𝙀 ৳{amount_sent}", callback_data=f"approve_{user_id}_{amount_sent}"),
-                InlineKeyboardButton("❌ 𝙍𝙀𝙅𝙀𝘾𝙏", callback_data=f"reject_{user_id}")
-            ]
-        ])
-
-        try:
-            await context.bot.send_photo(
-                chat_id=PRIMARY_ADMIN_ID, 
-                photo=photo_file_id, 
-                caption=admin_alert, 
-                reply_markup=admin_markup,
-                parse_mode="Markdown"
-            )
-        except Exception as e:
-            print(f"Admin send error: {e}")
-
-        await update.message.reply_text(
-            "⏳ **আপনার ডিপোজিট রিকোয়েস্টটি অ্যাডমিনের কাছে পাঠানো হয়েছে!**\nঅ্যাডমিন ভেরিফাই করে দ্রুত ব্যালেন্স যুক্ত করে দেবেন। ✨",
-            reply_markup=get_main_keyboard(user_id)
+            f"✅ আপনি লিখেছেন: ৳{text} BDT\n\n📸 এবার আপনার পেমেন্টের স্ক্রিনশট (Screenshot) এই চ্যাটে পাঠান।",
+            reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True)
         )
         return
 
@@ -512,32 +514,32 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if user_id not in USER_BALANCES:
         USER_BALANCES[user_id] = 0
 
-    # প্রক্সি শপ
-    if text in ["🛍️ 𝘽𝙐𝙔 𝙋𝙍𝙊𝙓𝙔 / 𝙎𝙀𝙍𝙑𝙄𝘾𝙀", "🛍️ 𝐁𝐔𝐘 𝐏𝐑𝐎𝐗𝐘 / 𝐒𝐄𝐑𝐕𝐈𝐂𝐄", "🛒 Buy Services / Proxy"]:
+    # শপ মেনু
+    if text in ["🛍️ 𝘽𝙐𝙔 𝙋𝙍𝙊𝙓𝙔 / 𝙎𝙀𝙍𝙑𝙄𝘾𝙀", "🛍️ BUY PROXY / SERVICE"]:
         shop_text = (
             "╔═════════════════════════╗\n"
-            "   🛒  **𝙋𝙍𝙊𝙓𝙔 & 𝙎𝙀𝙍𝙑𝙄𝘾𝙀 𝙎𝙏𝙊𝙍𝙀**  🛒\n"
+            "   🛒  𝙋𝙍𝙊𝙓𝙔 & 𝙎𝙀𝙍𝙑𝙄𝘾𝙀 𝙎𝙏𝙊𝙍𝙀  🛒\n"
             "╚═════════════════════════╝\n\n"
         )
         kb_buttons = []
         for p_name, p_info in PRODUCTS.items():
             if p_info["type"] == "proxy":
                 stock_count = len(p_info["stock_list"])
-                shop_text += f"🔹 **{p_name}**\n   💰 প্রাইস: `৳{p_info['price']} BDT` | 📦 স্টক: `{stock_count}` টি\n\n"
+                shop_text += f"🔹 {p_name}\n   💰 প্রাইস: ৳{p_info['price']} BDT | 📦 স্টক: {stock_count} টি\n\n"
                 kb_buttons.append([KeyboardButton(f"⚡ 𝘽𝙪𝙮 {p_name} (৳{p_info['price']})")])
             elif p_info["type"] == "proxy_bundle":
                 stock_count = len(PRODUCTS.get("Owl Proxy 200MB", {}).get("stock_list", [])) // 3
-                shop_text += f"🔹 **{p_name}** (৩টি প্যাক)\n   💰 প্রাইস: `৳{p_info['price']} BDT` | 📦 স্টক: `{stock_count}` প্যাক\n\n"
+                shop_text += f"🔹 {p_name} (৩টি প্যাক)\n   💰 প্রাইস: ৳{p_info['price']} BDT | 📦 স্টক: {stock_count} প্যাক\n\n"
                 kb_buttons.append([KeyboardButton(f"⚡ 𝘽𝙪𝙮 {p_name} (৳{p_info['price']})")])
             elif p_info["type"] == "custom_service":
                 stock_count = len(p_info["stock_list"])
-                shop_text += f"🔹 **{p_name}**\n   💰 প্রাইস: `৳{p_info['price']} BDT` | 📦 স্টক: `{stock_count}` টি\n\n"
+                shop_text += f"🔹 {p_name}\n   💰 প্রাইস: ৳{p_info['price']} BDT | 📦 স্টক: {stock_count} টি\n\n"
                 kb_buttons.append([KeyboardButton(f"⚡ 𝘽𝙪𝙮 {p_name} (৳{p_info['price']})")])
 
-        shop_text += "👇 *নিচের বাটন চেপে প্যাকেজ অর্ডার করুন:*"
+        shop_text += "👇 নিচের বাটন চেপে প্যাকেজ অর্ডার করুন:"
         kb_buttons.append([KeyboardButton("🔙 𝘽𝘼𝘾𝙆 𝙏𝙊 𝙈𝙀𝙉𝙐")])
         
-        await update.message.reply_text(shop_text, reply_markup=ReplyKeyboardMarkup(kb_buttons, resize_keyboard=True), parse_mode="Markdown")
+        await update.message.reply_text(shop_text, reply_markup=ReplyKeyboardMarkup(kb_buttons, resize_keyboard=True))
 
     elif "Buy" in text or "𝘽𝙪𝙮" in text:
         bought = False
@@ -548,9 +550,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 
                 if USER_BALANCES[user_id] < p_price:
                     await update.message.reply_text(
-                        "❌ **আপনার পর্যাপ্ত ব্যালেন্স নেই!**\nঅনুগ্রহ করে প্রথমে ডিপোজিট করুন।", 
-                        reply_markup=get_main_keyboard(user_id),
-                        parse_mode="Markdown"
+                        "❌ আপনার পর্যাপ্ত ব্যালেন্স নেই! অনুগ্রহ করে প্রথমে ডিপোজিট করুন।", 
+                        reply_markup=get_main_keyboard(user_id)
                     )
                     return
 
@@ -562,18 +563,18 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     proxy_info = p_info["stock_list"].pop(0)
                     delivery_text = (
                         "╔═════════════════════════╗\n"
-                        "   🚀  **𝙋𝙍𝙊𝙓𝙔 𝘿𝙀𝙇𝙄𝙑𝙀𝙍𝙀𝘿**  🚀\n"
+                        "   🚀  𝙋𝙍𝙊𝙓𝙔 𝘿𝙀𝙇𝙄𝙑𝙀𝙍𝙀𝘿  🚀\n"
                         "╚═════════════════════════╝\n\n"
-                        f"📦 **প্যাকেজ:** `{p_name}`\n"
+                        f"📦 প্যাকেজ: {p_name}\n"
                         "━━━━━━━━━━━━━━━━━━━━\n"
-                        f"🆔 **ID:** `{proxy_info['id']}`\n"
-                        f"🌐 **Host:** `{proxy_info['host']}`\n"
-                        f"🔌 **Port:** `{proxy_info['port']}`\n"
-                        f"👤 **User:** `{proxy_info['user']}`\n"
-                        f"🔑 **Pass:** `{proxy_info['pwd']}`\n"
+                        f"🆔 ID: `{proxy_info['id']}`\n"
+                        f"🌐 Host: `{proxy_info['host']}`\n"
+                        f"🔌 Port: `{proxy_info['port']}`\n"
+                        f"👤 User: `{proxy_info['user']}`\n"
+                        f"🔑 Pass: `{proxy_info['pwd']}`\n"
                         "━━━━━━━━━━━━━━━━━━━━\n"
-                        f"💰 **অবশিষ্ট ব্যালেন্স:** `৳{USER_BALANCES[user_id]} BDT`\n\n"
-                        "⚡ *সরাসরি কানেক্ট করে ব্যবহার করুন।*"
+                        f"💰 অবশিষ্ট ব্যালেন্স: ৳{USER_BALANCES[user_id]} BDT\n\n"
+                        "⚡ সরাসরি কানেক্ট করে ব্যবহার করুন।"
                     )
                     await update.message.reply_text(delivery_text, reply_markup=get_main_keyboard(user_id), parse_mode="Markdown")
 
@@ -589,17 +590,17 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     
                     for i, p_info_item in enumerate([p1, p2, p3], 1):
                         d_text = (
-                            f"📦 **বান্ডেল আইটেম ({i}/3):**\n"
+                            f"📦 বান্ডেল আইটেম ({i}/3):\n"
                             "━━━━━━━━━━━━━━━━━━━━\n"
-                            f"🆔 **ID:** `{p_info_item['id']}`\n"
-                            f"🌐 **Host:** `{p_info_item['host']}`\n"
-                            f"🔌 **Port:** `{p_info_item['port']}`\n"
-                            f"👤 **User:** `{p_info_item['user']}`\n"
-                            f"🔑 **Pass:** `{p_info_item['pwd']}`"
+                            f"🆔 ID: `{p_info_item['id']}`\n"
+                            f"🌐 Host: `{p_info_item['host']}`\n"
+                            f"🔌 Port: `{p_info_item['port']}`\n"
+                            f"👤 User: `{p_info_item['user']}`\n"
+                            f"🔑 Pass: `{p_info_item['pwd']}`"
                         )
                         await update.message.reply_text(d_text, parse_mode="Markdown")
                         await asyncio.sleep(0.4)
-                    await update.message.reply_text(f"🎉 **৩টি প্রক্সি ডেলিভারি সম্পন্ন!**\n💰 **বর্তমান ব্যালেন্স:** `৳{USER_BALANCES[user_id]} BDT`", reply_markup=get_main_keyboard(user_id), parse_mode="Markdown")
+                    await update.message.reply_text(f"🎉 ৩টি প্রক্সি ডেলিভারি সম্পন্ন!\n💰 বর্তমান ব্যালেন্স: ৳{USER_BALANCES[user_id]} BDT", reply_markup=get_main_keyboard(user_id))
 
                 elif p_info["type"] == "custom_service":
                     if len(p_info["stock_list"]) <= 0:
@@ -608,52 +609,52 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     USER_BALANCES[user_id] -= p_price
                     item_data = p_info["stock_list"].pop(0)
                     await update.message.reply_text(
-                        f"🎉 **সার্ভিস ডেলিভারি সম্পন্ন:**\n━━━━━━━━━━━━━━━━━━━━\n📦 **{p_name}**\n\n`{item_data}`\n━━━━━━━━━━━━━━━━━━━━\n💰 **বর্তমান ব্যালেন্স:** `৳{USER_BALANCES[user_id]} BDT`",
+                        f"🎉 সার্ভিস ডেলিভারি সম্পন্ন:\n━━━━━━━━━━━━━━━━━━━━\n📦 {p_name}\n\n`{item_data}`\n━━━━━━━━━━━━━━━━━━━━\n💰 বর্তমান ব্যালেন্স: ৳{USER_BALANCES[user_id]} BDT",
                         reply_markup=get_main_keyboard(user_id),
                         parse_mode="Markdown"
                     )
                 break
 
-    elif text in ["💳 𝘿𝙀𝙋𝙊𝙎𝙄𝙏 𝙈𝙊𝙉𝙀𝙔", "💳 𝐀𝐃𝐃 𝐁𝐀𝐋𝐀𝐍𝐂𝐄 (𝐃𝐄𝐏𝐎𝐒𝐈𝐓)", "💰 Deposit"]:
+    elif text in ["💳 𝘿𝙀𝙋𝙊𝙎𝙄𝙏 𝙈𝙊𝙉𝙀𝙔", "💳 DEPOSIT MONEY"]:
         USER_STATES[user_id] = "waiting_for_deposit_amount"
         deposit_text = (
             "╔═════════════════════════╗\n"
-            "   💳  **𝘼𝘿𝘿 𝘽𝘼𝙇𝘼𝙉𝘾𝙀 / 𝘿𝙀𝙋𝙊𝙎𝙄𝙏**  💳\n"
+            "   💳  ডিপোজিট / অ্যাড মানি  💳\n"
             "╚═════════════════════════╝\n\n"
             "টাকা পাঠানোর পার্সোনাল নম্বরসমূহ:\n"
             "━━━━━━━━━━━━━━━━━━━━\n"
-            "🔹 **Bkash (Personal):** `01317404705`\n"
-            "🔸 **Nagad (Personal):** `01917404724`\n"
+            "🔹 বিকাশ (Personal): `01317404705`\n"
+            "🔸 নগদ (Personal): `01917404724`\n"
             "━━━━━━━━━━━━━━━━━━━━\n\n"
-            "⚠️ **সর্বনিম্ন ডিপোজিট:** `৳১০ BDT`\n\n"
-            "✍️ *টাকা পাঠিয়ে কত টাকা পাঠিয়েছেন তা সংখ্যায় লিখে পাঠান (যেমন: 50):*"
+            "⚠️ সর্বনিম্ন ডিপোজিট: ৳১০ BDT\n\n"
+            "✍️ টাকা পাঠিয়ে কত টাকা পাঠিয়েছেন তা সংখ্যায় লিখে পাঠান (যেমন: 50):"
         )
         await update.message.reply_text(deposit_text, reply_markup=ReplyKeyboardMarkup([[KeyboardButton("❌ 𝘾𝘼𝙉𝘾𝙀𝙇 & 𝘽𝘼𝘾𝙆")]], resize_keyboard=True), parse_mode="Markdown")
 
-    elif text in ["💎 𝙈𝙔 𝘼𝘾𝘾𝙊𝙐𝙉𝙏 & 𝘽𝘼𝙇𝘼𝙉𝘾𝙀", "💎 𝐌𝐘 𝐁𝐀𝐋𝐀𝐍𝐂𝐄 & 𝐈𝐍𝐅𝐎", "📦 My Stock & Balance"]:
+    elif text in ["💎 𝙈𝙔 𝘼𝘾𝘾𝙊𝙐𝙉𝙏 & 𝘽𝘼𝙇𝘼𝙉𝘾𝙀", "💎 MY ACCOUNT & BALANCE"]:
         bal = USER_BALANCES.get(user_id, 0)
         status_text = (
             "╔═════════════════════════╗\n"
-            "   👤  **𝙐𝙎𝙀𝙍 𝘿𝘼𝙎𝙃𝘽𝙊𝘼𝙍𝘿**  👤\n"
+            "   👤  ইউজার ড্যাশবোর্ড  👤\n"
             "╚═════════════════════════╝\n\n"
-            f"🆔 **আপনার আইডি:** `{user_id}`\n"
-            f"💰 **বর্তমান ব্যালেন্স:** `৳{bal} BDT`\n"
-            f"💎 **ইউজার স্ট্যাটাস:** `Verified (VIP)`\n"
+            f"🆔 আপনার আইডি: `{user_id}`\n"
+            f"💰 বর্তমান ব্যালেন্স: ৳{bal} BDT\n"
+            f"💎 ইউজার স্ট্যাটাস: Verified (VIP)\n"
             "━━━━━━━━━━━━━━━━━━━━\n"
-            "🚀 *সবচেয়ে ফাস্ট সার্ভিসের জন্য আমাদের সাথেই থাকুন!*"
+            "🚀 সবচেয়ে ফাস্ট সার্ভিসের জন্য আমাদের সাথেই থাকুন!"
         )
         await update.message.reply_text(status_text, parse_mode="Markdown")
 
-    elif text in ["⚡ 𝙇𝙄𝙑𝙀 𝙎𝙐𝙋𝙋𝙊𝙍𝙏", "⚡ 𝟐𝟒/𝟕 𝐋𝐈𝐕𝐄 𝐒𝐔𝐏𝐏𝐎𝐑𝐓", "📞 Support"]:
+    elif text in ["⚡ 𝙇𝙄𝙑𝙀 𝙎𝙐𝙋𝙋𝙊𝙍𝙏", "⚡ LIVE SUPPORT"]:
         support_text = (
             "╔═════════════════════════╗\n"
-            "   ☎️  **𝙊𝙁𝙁𝙄𝘾𝙄𝘼𝙇 𝙎𝙐𝙋𝙋𝙊𝙍𝙏**  ☎️\n"
+            "   ☎️  অফিসিয়াল সাপোর্ট  ☎️\n"
             "╚═════════════════════════╝\n\n"
             "যে কোনো সমস্যা বা তথ্যের জন্য যোগাযোগ করুন:\n\n"
-            "👤 **অ্যাডমিন:** @owner_joshim\n"
-            "⏰ **সাপোর্ট টাইম:** ২৪/৭ একটিভ"
+            "👤 অ্যাডমিন: @owner_joshim"
+            "⏰ সাপোর্ট টাইম: ২৪/৭ একটিভ"
         )
-        await update.message.reply_text(support_text, parse_mode="Markdown")
+        await update.message.reply_text(support_text)
 
     else:
         if USER_STATES.get(user_id) is None:
@@ -666,9 +667,10 @@ def main():
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button_callback))
-    application.add_handler(MessageHandler(filters.TEXT | filters.PHOTO & (~filters.COMMAND), handle_message))
+    # টেক্সট ও ফটো দুটোই যেন সঠিকভাবে রিসিভ হয়
+    application.add_handler(MessageHandler(filters.ALL & (~filters.COMMAND), handle_message))
 
-    print("👑 VIP Proxy Bot is running with ELITE Font UI...")
+    print("👑 VIP Proxy Bot is running...")
     application.run_polling()
 
 if __name__ == '__main__':
